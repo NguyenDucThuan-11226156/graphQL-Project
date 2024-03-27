@@ -8,27 +8,28 @@ export const resolvers = {
     },
     getListArticle: async () => {
       const articles = await Article.find({
-        deleted: false
+        deleted: false,
       });
 
       return articles;
     },
     getListCategory: async () => {
       const categories = await Category.find({
-        deleted: false
+        deleted: false,
       });
 
       return categories;
-    }
+    },
   },
   Article: {
     category: async (article) => {
+      // Lay categoryId tu articles( lay duoc khi goi getListArticle)
       const { categoryId } = article;
       const category = await Category.findOne({
-        _id: categoryId
+        _id: categoryId,
       });
       return category;
-    }
+    },
   },
   Mutation: {
     createArticle: async (_, args) => {
@@ -41,26 +42,32 @@ export const resolvers = {
     },
     deleteArticle: async (_, args) => {
       const { id } = args;
-      
-      await Article.updateOne({
-        _id: id
-      }, {
-        deleted: true,
-        deletedAt: new Date()
-      });
+
+      await Article.updateOne(
+        {
+          _id: id,
+        },
+        {
+          deleted: true,
+          deletedAt: new Date(),
+        }
+      );
 
       return "Đã xóa!";
     },
     updateArticle: async (_, args) => {
       const { id, article } = args;
 
-      await Article.updateOne({
-        _id: id
-      }, article);
+      await Article.updateOne(
+        {
+          _id: id,
+        },
+        article
+      );
 
       const newData = await Article.findOne({
-        _id: id
-      }); 
+        _id: id,
+      });
 
       return newData;
     },
@@ -75,28 +82,34 @@ export const resolvers = {
     },
     deleteCategory: async (_, args) => {
       const { id } = args;
-      
-      await Category.updateOne({
-        _id: id
-      }, {
-        deleted: true,
-        deletedAt: new Date()
-      });
+
+      await Category.updateOne(
+        {
+          _id: id,
+        },
+        {
+          deleted: true,
+          deletedAt: new Date(),
+        }
+      );
 
       return "Đã xóa!";
     },
     updateCategory: async (_, args) => {
       const { id, category } = args;
 
-      await Category.updateOne({
-        _id: id
-      }, category);
+      await Category.updateOne(
+        {
+          _id: id,
+        },
+        category
+      );
 
       const newData = await Category.findOne({
-        _id: id
-      }); 
+        _id: id,
+      });
 
       return newData;
     },
-  }
-}
+  },
+};
